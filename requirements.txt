@@ -43,3 +43,9 @@ tzdata==2025.2
 wcwidth==0.2.14
 widgetsnbextension==4.0.14
 nbformat
+openai==0.27.8
+jinja2
+python-dotenv
+requests
+transformers   # if using Hugging Face
+sentencepiece  # sometimes required for tokenizers
