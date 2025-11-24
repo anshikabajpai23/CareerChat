@@ -1,0 +1,64 @@
+{
+  "name": "Alexandra Rivera",
+  "email": "alex.rivera@example.com",
+  "skills": [
+    "Python",
+    "Pandas",
+    "NumPy",
+    "Scikit-learn",
+    "PyTorch",
+    "TensorFlow",
+    "Natural Language Processing",
+    "Deep Learning",
+    "Data Visualization",
+    "SQL",
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Git"
+  ],
+  "work_experience": [
+    {
+      "company": "NeuralEdge AI Solutions",
+      "title": "Senior Data Scientist",
+      "location": "Remote",
+      "achievements": [
+        "Led a team of 5 in developing NLP models to detect financial fraud from customer communication data.",
+        "Deployed end-to-end machine learning pipelines using AWS SageMaker and Docker.",
+        "Reduced false positives in fraud detection by 17% through improved feature engineering."
+      ]
+    },
+    {
+      "company": "Innova Analytics",
+      "title": "Machine Learning Engineer",
+      "location": "Austin, TX",
+      "achievements": [
+        "Built deep learning models in PyTorch for customer churn prediction and image classification.",
+        "Implemented CI/CD pipelines for ML model deployment using GitHub Actions and Kubernetes.",
+        "Collaborated with data engineering team to optimize ETL pipelines with Apache Spark."
+      ]
+    },
+    {
+      "company": "Insight Data Labs",
+      "title": "Data Scientist",
+      "location": "Chicago, IL",
+      "achievements": [
+        "Developed predictive models using scikit-learn and gradient boosting for marketing analytics.",
+        "Created interactive dashboards in Tableau to visualize customer engagement metrics.",
+        "Mentored two junior analysts on Python and statistical modeling techniques."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Indiana University",
+      "degree": "MS",
+      "field": "Data Science"
+    },
+    {
+      "institution": "University of Illinois",
+      "degree": "BS",
+      "field": "Computer Science"
+    }
+  ]
+}

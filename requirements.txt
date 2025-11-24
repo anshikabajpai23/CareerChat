@@ -43,3 +43,16 @@ tzdata==2025.2
 wcwidth==0.2.14
 widgetsnbextension==4.0.14
 nbformat
+fastapi
+uvicorn
+sentence-transformers
+faiss-cpu
+PyPDF2
+openai
+langchain
+python-multipart
+streamlit
+pydantic
+requests
+tqdm
+auth

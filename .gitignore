@@ -1,2 +1,52 @@
 *.DS_Store
 .venv/
+.env
+.myvenv
+# --- Python ---
+_pycache_/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual environments
+myenv/
+.myenv/
+.myenv/
+
+
+# Build and packaging
+build/
+dist/
+*.egg-info/
+
+# --- Streamlit ---
+.streamlit/secrets.toml
+.streamlit/*.yaml
+.streamlit/*.json
+
+# Streamlit local state
+.streamlit/state/
+.streamlit/*.lock
+
+# --- OAuth Credentials ---
+# Absolutely never commit these.
+client_secret.json
+credentials.json
+*.pem
+*.key
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- IDE junk ---
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+*.toml
