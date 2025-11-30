@@ -50,3 +50,6 @@ Thumbs.db
 logs/
 
 *.toml
+
+# --- Uploads ---
+frontend/pages/uploads/

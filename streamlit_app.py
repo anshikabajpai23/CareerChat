@@ -1,9 +1,3 @@
-from pathlib import Path
-import sys
-ROOT = Path(__file__).resolve().parents[1]  # ...\CareerChat
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
 import pandas as pd
 import streamlit as st
 from home_page import home_page
