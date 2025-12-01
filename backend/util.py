@@ -6,7 +6,7 @@ def parse_resume(resume_text: str):
     skills = re.findall(r"(Python|Java|SQL|TensorFlow|AWS)", resume_text)
     return {"name": name[0] if name else "Candidate", "skills": list(set(skills))}
 
-def generate_messages(resume_info, role, company, channel, people, job):
+def generate_messages( role, company, message_type, people, job, history, resume_info):
     templates = {
         "linkedin_note": "Hi {person}, I came across {company} and I'm excited about opportunities there related to {job}. With my background in {skills}, I’d love to connect and learn more.",
         "cold_email": "Hi {person}, I’m reaching out regarding {job} roles at {company}. I bring experience in {skills} and I’d love to explore how I might contribute.",
@@ -16,7 +16,7 @@ def generate_messages(resume_info, role, company, channel, people, job):
     skill_str = ", ".join(resume_info["skills"]) if resume_info["skills"] else "software development"
     results = {}
     for person in people:
-        for i in channel:
+        for i in message_type:
             results.setdefault(i, [])
             msg = templates[i].format(
                 person=person, company=company, skills=skill_str, job=job
