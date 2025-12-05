@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-from home_page import home_page
+from news_page import home_page
 
 st.title("Networking Message Generator")
 print("Starting Streamlit app...")

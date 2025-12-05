@@ -26,3 +26,11 @@ async def generate_message(
     resume_info = util.parse_resume(resume_text.decode("utf-8", errors="ignore"))
     messages = util.generate_messages(resume_info, role, company, channel, people, job)
     return {"messages": messages}
+
+@app.post("/retrieve_articles/")
+async def retrieve_articles(
+    company: str = Form(...),
+    role: str = Form(...)
+):
+    articles = util.retrieve_and_summarize_articles(company, role)
+    return articles
