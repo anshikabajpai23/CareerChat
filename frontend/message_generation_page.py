@@ -3,14 +3,9 @@ import requests
 import json
 import os
 
-
-
 def get_resume():
-    # return st.session_state.get('uploaded_resume', None)
-    # with open("payload.json","r", encoding="utf-8") as f:
     if os.path.exists("payload.json"):
         with open("payload.json","r", encoding="utf-8") as f:
-            # payload = json.load(f)
             return json.load(f)
     return {"error": "payload.json not found"}
 
@@ -23,31 +18,32 @@ def get_history(resume_info):
     return history
 
 def message_generation_page():
-    # resume = st.file_uploader("Upload your resume", type=["pdf", "txt"]) #remove
     resume_info = get_resume()
     history = get_history(resume_info)
     role = st.selectbox("Who are you contacting?", ["recruiter", "manager", "friend", "ex-colleague", "senior", "director"], key = 'role_select')
     #TODO: MAKE LIST OF MESSAGE TYPES
     message_type = st.selectbox("Message type", ['LinkedIn connection notes', 'Cover Letters'], key='message_type_select')
-    company = st.text_input("Company name", key='company_input')
+    company=st.session_state.company
     history = st.multiselect("How do you know the person?", history, key='history_select')
     job = st.selectbox("Which Job role?", ["Software", "Machine Learning", "Data Science", "Game Development"], key='job_select')
     people = st.text_area("List of people (comma-separated)", key='text').split(",")
+    
     if st.button("Generate Messages", key='button') and resume_info:
+
         data = {"role": role,
          "company": company, 
          "message_type": message_type,
           "people": people, 
           "job": job,
            "history": history,
-            "resume_info": resume_info} #add resume
+            "resume_info": resume_info,
+            "summaries":st.session_state.summaries} #add resume
         print(data)
         response = requests.post("http://127.0.0.1:8000/generate-message/", json=data)
         
         output=response.json()
 
 
-        # Use soft pastel colors with explicit dark text
         colors = ["#FFB6B9", "#B6E2D3", "#FFF2B2", "#B2D0FF"]  # light but readable
         text_color = "#111111"  # dark text for contrast in both light/dark modes
 

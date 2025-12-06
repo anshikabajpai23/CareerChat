@@ -6,9 +6,10 @@ Recipient Details:
 - role = {{ role }}
 - history = {{ history | join(" and ") }}
 - position = {{ position }}
-- news = 
 {% for item in news %}
-    - {{ item[1] }}
+  - title: {{ item[1] }}
+    url: {{ item[0] }}
+    summary: {{ item[2] }}
 {% endfor %}
 - company = {{ company_name }}
 
