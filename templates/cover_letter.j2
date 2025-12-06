@@ -1,0 +1,23 @@
+You are given below JSON payload:
+{{ payload | tojson(indent=4) }}
+
+Recipient Details:
+- Recipient_name = {{ Recipient_name }}
+- role = {{ role }}
+- history = {{ history | join(" and ") }}
+{% for item in news %}
+  - title: {{ item[1] }}
+    url: {{ item[0] }}
+    summary: {{ item[2] }}
+{% endfor %}
+- company = {{ company_name }}
+
+
+Task:
+Draft a personalized message for {{ Recipient_name }} who I know based on our past interactions at {{ history | join(" and ") }}.
+Using the JSON payload and the variables above, produce a short, clear message to {{ role }} about the {{ position }} position. 
+Highlight relevant skills and experiences from the payload that align with the job requirements. 
+Also mention some of the recent news items from summary that may impact the role or the company or tells the {{ role }} that you are really interested in working there because of these developments. 
+Maintain a professional and engaging tone.
+Do not hallucianate any information. Do not include common ai-generated words or phrases. 
+Do not include the fields or placeholders that are not present in the payload like linkedin profile, phone number or any other link.
