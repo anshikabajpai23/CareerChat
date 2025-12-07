@@ -1,3 +1,6 @@
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
 import streamlit as st
 from home_page import home_page
 from message_generation_page import message_generation_page
