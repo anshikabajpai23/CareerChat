@@ -1,25 +1,11 @@
-import re
+import streamlit as st
+import requests
 
-def retrieve_and_summarize_articles(company, role):
-    # import time
-    # import random
-    # import requests
-    # import pandas as pd
-    # import nltk
-    # nltk.download('punkt')
-    # nltk.download('punkt_tab')
-    # from datetime import datetime
-    # from dateutil.relativedelta import relativedelta
-    # from datetime import datetime
-    # from dateutil.relativedelta import relativedelta
-    # from newspaper import Article, Config
-    # from GoogleNews import GoogleNews
-    # from nltk.tokenize import sent_tokenize
-    # from transformers import pipeline
-    # from urllib3.util.retry import Retry
-    # from requests.adapters import HTTPAdapter
 
-    return [
+def news_summary():
+    print("News summary page")
+    st.session_state.company = st.text_input("Company name", key='company_input')
+    st.session_state.summaries=[
     ('https://www.foxnews.com/tech/windows-10-users-face-ransomware-nightmare-microsoft-support-ends-2025-worldwide', 'Windows 10 Users Face Ransomware Nightmare - Microsoft Support Ends 2025 Worldwide', 'Microsoft warns that over 90% of ransomware attacks target unsupported Windows 10 systems, urging users to upgrade ahead of support ending worldwide in 2025.')
     , ('https://www.cnbc.com/2025/11/01/meta-alphabet-amazon-microsoft-earnings-ads.html', 'While AI spending is top of mind, online ads are driving a lot of Big Tech’s growth', 'Microsoft (alongside Meta, Alphabet and Amazon) reported ad- and cloud-driven earnings, reinforcing its expanding role in AI/ads environments.')
     , ('https://www.cnbc.com/2025/10/31/tech-ai-google-meta-amazon-microsoft-spend.html', 'Tech’s $380 billion splurge: This quarter’s winners and losers of the AI spending boom', 'Microsoft signalled a continuing ramp-up in AI infrastructure investment, matching peers in increasing data center and AI-capex spending.')

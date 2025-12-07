@@ -1,18 +1,40 @@
-import pandas as pd
 import streamlit as st
-from news_page import home_page
+from home_page import home_page
+from message_generation_page import message_generation_page
+from news_summary import news_summary
 
-st.title("Networking Message Generator")
-print("Starting Streamlit app...")
-print(f"Streamlit version: {st.user}")
-if st.session_state.get("logged_in", False):
-    if st.button("Log in with Google", type="primary", icon=":material/login:"):
-        st.login()
-else:
-    st.html(f"Hello, <span style='color: orange; font-weight: bold;'></span>!")
-    st.write(home_page())
+if "tab_index" not in st.session_state:
+    st.session_state.tab_index = 0
 
-    if st.button("Log out", type="secondary", icon=":material/logout:"):
-        st.logout()
+tabs = ["Profile Creation", "News Summary", "Message Generation"]
 
-st.caption(f"Streamlit version {st.__version__}")
+def next_tab():
+    if st.session_state.tab_index < len(tabs) - 1:
+        st.session_state.tab_index += 1
+
+def prev_tab():
+    if st.session_state.tab_index > 0:
+        st.session_state.tab_index -= 1
+
+st.title("CareerChat Home Page")
+
+current_tab = tabs[st.session_state.tab_index]
+
+if current_tab == "Profile Creation":
+    st.header("Profile Creation")
+    home_page()
+elif current_tab == "News Summary":
+    st.header("News Summary")
+    news_summary()
+elif current_tab == "Message Generation":
+    st.header("Message Generation")
+    message_generation_page()
+
+# Navigation buttons
+col1, col2, col3 = st.columns([1,2,1])
+
+with col1:
+    st.button("PREVIOUS", on_click=prev_tab)
+
+with col3:
+    st.button("NEXT", on_click=next_tab)

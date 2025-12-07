@@ -1,0 +1,23 @@
+You are given below JSON payload:
+{{ payload | tojson(indent=4) }}
+
+Recipient Details:
+- Recipient_name = {{ Recipient_name }}
+- role = {{ role }}
+- history = {{ history | join(" and ") }}
+- position = {{ position }}
+{% for item in news %}
+  - title: {{ item[1] }}
+    url: {{ item[0] }}
+    summary: {{ item[2] }}
+{% endfor %}
+- company = {{ company_name }}
+
+
+Task:
+Draft a personalized linkedin message for {{ Recipient_name }} who I know based on our past interactions at {{ history | join(" and ") }}.
+Using the JSON payload and the variables above, produce a short, clear message to show interest in {{ role }} about the {{ position }} position. 
+Highlight relevant skills and experiences from the payload that align with the job requirements. 
+Do not hallucianate any information. Do not include common ai-generated words or phrases. 
+Maintain a professional, engaging and polite tone.
+Word limit should NOT exceed 300 characters.
