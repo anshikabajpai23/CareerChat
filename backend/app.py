@@ -70,13 +70,10 @@ async def generate_messages( message_request: MessageRequest):
     return results
 
 @app.post("/retrieve_articles/")
-async def retrieve_articles():
+async def retrieve_articles(data: dict):
 
     gnews_api_key = "04d48be4ea74ddf64f4b4401f3fb8177"
     gnews_url = "https://gnews.io/api/v4/search"
-
-    company = "Microsoft" # to eventually be replaced with user input
-    role = "Software Engineer" # to eventually be replaced with user input
 
     start_date_str = (datetime.now() - relativedelta(days=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -87,6 +84,8 @@ async def retrieve_articles():
     session.mount('http://', adapter)
     session.mount('https://', adapter)
     seen_articles = []
+    company = data.get("company", "")
+    role = data.get("role", "")
 
     # create company query (can be modified for testing other ways to retrieve articles)
     company_query = f'{company} AND (earnings OR results OR revenue OR profit OR acquisition OR merger OR investment OR partnership OR strategy OR forecast OR guidance)'
@@ -135,35 +134,41 @@ async def retrieve_articles():
 
     return parsed_articles
 
-    # summarizer = pipeline("text2text-generation", model="google/flan-t5-base", dtype="auto")
+@app.post("/summarize_articles/")
+async def summarize_articles(data: dict):
+    summarizer = pipeline("text2text-generation", model="google/flan-t5-base")
 
-    # # summarize articles
-    # summaries = []
-    # prompts = []
-    # links = []
-    # titles = []
+    selected_articles = data.get("selected_articles", [])
+    company = data.get("company", "")
+    role = data.get("role", "")
 
-    # for article in parsed_articles:
-    #     text = article.get('Full_Text').strip()
+    # summarize articles
+    summaries = []
+    prompts = []
+    links = []
+    titles = []
 
-    #     if not text:
-    #         summaries.append((article.get('Link'), article.get('Title'), 'Summary failure.'))
-    #         continue
+    for article in selected_articles:
+        text = article.get('Full_Text').strip()
 
-    #     prompt = f"Write a one sentence summary of the content contained in the following article; specifically highlight its impact or relevance on {company} in a context that would be useful for a job interview of a position as a {role} at the company:\n{text}"
-    #     prompts.append(prompt)
-    #     links.append(article.get('Link'))
-    #     titles.append(article.get('Title'))
+        if not text:
+            summaries.append((article.get('Link'), article.get('Title'), 'Summary failure.'))
+            continue
 
-    # for i in range(0, len(prompts), 10):
-    #     # batch 10 prompts at a time
-    #     batch_prompts = prompts[i:i+10]
-    #     batch_links = links[i:i+10]
-    #     batch_titles = titles[i:i+10]
+        prompt = f"Write a one sentence summary of the content contained in the following article; specifically highlight its impact or relevance on {company} in a context that would be useful for a job interview of a position as a {role} at the company:\n{text}"
+        prompts.append(prompt)
+        links.append(article.get('Link'))
+        titles.append(article.get('Title'))
 
-    #     summary_results = summarizer(batch_prompts, truncation=True, do_sample=False)
+    for i in range(0, len(prompts), 10):
+        # batch 10 prompts at a time
+        batch_prompts = prompts[i:i+10]
+        batch_links = links[i:i+10]
+        batch_titles = titles[i:i+10]
 
-    #     for link, title, summary_result in zip(batch_links, batch_titles, summary_results):
-    #         summaries.append((link, title, summary_result.get('generated_text').split('.')[0]))
+        summary_results = summarizer(batch_prompts, truncation=True, do_sample=False)
 
-    # return summaries
+        for link, title, summary_result in zip(batch_links, batch_titles, summary_results):
+            summaries.append({'Link': link, 'Title': title, 'Summary': summary_result.get('generated_text').split('.')[0]})
+
+    return {'summaries': summaries}
