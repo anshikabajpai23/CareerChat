@@ -12,13 +12,13 @@ def news_summary():
     """
 **Instructions**
 
-Click the button below to retrieve relevant news articles for the company and role you are applying for. Summaries will be generated for each article.
+Click the button below to retrieve relevant news articles for the company and role you are applying for.
 
 Then, check the box next to each article you would like to reference in your generated message.
 """
 )
 
-    # top controls (checkbox + button)
+    # top controls
     col1, col2 = st.columns([1, 1])
 
     with col1:
@@ -37,7 +37,7 @@ Then, check the box next to each article you would like to reference in your gen
         # retrieve articles
         with st.spinner("Retrieving news articles..."):
             data = {"company": 'Microsoft', "role": 'Software Engineer'}
-            response = requests.post("http://127.0.0.1:8000/retrieve_articles/",data=data).json()
+            response = requests.post("http://127.0.0.1:8000/retrieve_articles/").json()
 
         st.session_state.articles = response
 
@@ -55,7 +55,7 @@ Then, check the box next to each article you would like to reference in your gen
             for i, article in enumerate(articles, start=1):
                 # add checkbox for each article - format of "Title - Summary" extracted from article object
                 key=f"article_{i}"
-                st.checkbox(f"**{article[1]}** – {article[2]}", key=key)
+                st.checkbox(f"**{article['Title']}** – {article['Link']}", key=key)
             
 
             st.session_state.summaries = [
