@@ -5,6 +5,14 @@ import requests
 def news_summary():
     st.set_page_config(page_title="News Article Retrieval & Summary", layout="centered")
 
+    # company and role inputs
+    # if "company" not in st.session_state:
+    #     st.session_state.company = ""
+    # if "role" not in st.session_state:
+    #     st.session_state.role = ""
+    st.text_input("Company You Are Applying At:", key="company")
+    st.text_input("Role You Are Applying For:", key="role")
+
     st.title("News Article Retrieval & Summary")
 
     # instructions
@@ -30,12 +38,8 @@ Then, check the box next to each article you would like to reference in your gen
     # initialize session state
     if "articles" not in st.session_state:
         st.session_state.articles = None
-
-    st.session_state.selected_articles = []
-
-    # obtain company and role
-    st.session_state.company = 'Microsoft'  # placeholder for now
-    st.session_state.role = 'Software Engineer'  # placeholder for now
+    # persist previous selections; only set default if not present
+    st.session_state.setdefault("selected_articles", [])
 
     # when user clicks the button
     if retrieve_btn:
