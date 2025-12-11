@@ -25,7 +25,7 @@ def message_generation_page():
     message_type = st.selectbox("Message type", ['LinkedIn connection notes', 'Cover Letters'], key='message_type_select')
     company=st.session_state.company
     history = st.multiselect("How do you know the person?", history, key='history_select')
-    job = st.selectbox("Which Job role?", ["Software", "Machine Learning", "Data Science", "Game Development"], key='job_select')
+    job = st.session_state.role
     people = st.text_area("List of people (comma-separated)", key='text').split(",")
     
     if st.button("Generate Messages", key='button') and resume_info:
