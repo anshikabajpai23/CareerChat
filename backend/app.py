@@ -116,14 +116,18 @@ async def retrieve_articles(data: dict):
         link = article.get('url')
         content = article.get('content')[:1000]
         published = article.get('publishedAt')
-
         if not link or title in seen_articles:
             continue
 
         seen_articles.append(title)
 
-        if not company in title:
-            # skip over any articles that do not mention the company in the title
+        company_lower = company.lower()
+
+        title_lower = (title or "").lower()
+        content_lower = (article.get("content") or "").lower()
+
+        if company_lower not in title_lower and company_lower not in content_lower:
+            print("Skipping article - company not in title or content")
             continue
         parsed_articles.append({
             'Title': title,
@@ -131,7 +135,7 @@ async def retrieve_articles(data: dict):
             'Published': published,
             'Full_Text': content,
         })    
-
+    print(f"Retrieved {len(parsed_articles)} articles.")
     return parsed_articles
 
 @app.post("/summarize_articles/")

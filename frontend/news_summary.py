@@ -5,13 +5,11 @@ import requests
 def news_summary():
     st.set_page_config(page_title="News Article Retrieval & Summary", layout="centered")
 
-    # company and role inputs
-    # if "company" not in st.session_state:
-    #     st.session_state.company = ""
-    # if "role" not in st.session_state:
-    #     st.session_state.role = ""
-    st.text_input("Company You Are Applying At:", key="company")
-    st.text_input("Role You Are Applying For:", key="role")
+    company_name=st.text_input("Company You Are Applying At:", key="company")
+    st.session_state.company_name=company_name
+    role_name=st.text_input("Role You Are Applying For:", key="job")
+    st.session_state.job_name=role_name
+
 
     st.title("News Article Retrieval & Summary")
 
@@ -46,9 +44,8 @@ Then, check the box next to each article you would like to reference in your gen
 
         # retrieve articles
         with st.spinner("Retrieving news articles..."):
-            data = {"company": st.session_state.company, "role": st.session_state.role}
+            data = {"company": st.session_state.company, "role": st.session_state.job}
             response = requests.post("http://127.0.0.1:8000/retrieve_articles/",json=data).json()
-
         st.session_state.articles = response
 
     # render scrollable list of article summaries + checkboxes
