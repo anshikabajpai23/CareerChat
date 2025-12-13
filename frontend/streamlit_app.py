@@ -13,15 +13,6 @@ if "tab_index" not in st.session_state:
 tabs = ["Profile Creation", "News Summary", "Message Generation"]
 
 def next_tab():
-    if st.session_state.tab_index == len(tabs) - 2:
-        # trigger backend summarization call
-        data = {"selected_articles": st.session_state.selected_articles, "company": st.session_state.company, "role": st.session_state.role}
-        raw_summaries = requests.post("http://127.0.0.1:8000/summarize_articles/",json=data).json().get("summaries", [])
-        parsed_summaries = []
-        for summary in raw_summaries:
-            parsed_summaries.append((summary.get('Link'), summary.get('Title'), summary.get('Summary')))
-        st.session_state.summaries = parsed_summaries
-        # print("summaries: ", st.session_state.summaries)
     if st.session_state.tab_index < len(tabs) - 1:
         st.session_state.tab_index += 1
 
