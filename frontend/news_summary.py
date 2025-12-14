@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-
+from backend.news_articles import retrieve_articles
 
 def news_summary():
     st.set_page_config(page_title="News Article Retrieval & Summary", layout="centered")
@@ -44,8 +44,7 @@ Then, check the box next to each article you would like to reference in your gen
 
         # retrieve articles
         with st.spinner("Retrieving news articles..."):
-            data = {"company": st.session_state.company, "role": st.session_state.job}
-            response = requests.post("http://127.0.0.1:8000/retrieve_articles/",json=data).json()
+            response = retrieve_articles(st.session_state.company, st.session_state.job)
         st.session_state.articles = response
 
     # render scrollable list of article summaries + checkboxes
@@ -69,5 +68,3 @@ Then, check the box next to each article you would like to reference in your gen
                 article for i, article in enumerate(articles, start=1)
                 if st.session_state.get(f"article_{i}", False)
             ]
-
-            # print(f"Selected articles: {st.session_state.selected_articles}")
