@@ -6,6 +6,7 @@ from backend.parse_resume import parse_resume
 import time
 
 def home_page():
+    test_input = st.text_input("Test Input!", key="test_input")
     UPLOADS_DIR = Path(__file__).parent / "pages" / "uploads"
     st.session_state.uploads_dir = UPLOADS_DIR
     UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
