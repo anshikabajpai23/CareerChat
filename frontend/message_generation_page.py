@@ -1,6 +1,8 @@
 import streamlit as st
 import requests
 import json
+from backend.message_generation import generate_messages
+from backend.news_articles import summarize_articles
 import os
 
 def get_resume():
@@ -18,10 +20,11 @@ def get_history(resume_info):
     return history
 
 def message_generation_page():
-    data = {"selected_articles": st.session_state.selected_articles, "company": st.session_state.company_name, "role": st.session_state.job_name}
-    raw_summaries = requests.post("http://127.0.0.1:8000/summarize_articles/",json=data).json().get("summaries", [])
+    raw_summaries = summarize_articles(selected_articles=st.session_state.selected_articles, company=st.session_state.company_name, role=st.session_state.job_name)
     parsed_summaries = []
+    print(raw_summaries)
     for summary in raw_summaries:
+
         parsed_summaries.append((summary.get('Link'), summary.get('Title'), summary.get('Summary')))
     st.session_state.summaries = parsed_summaries
     print("summaries: ", st.session_state.summaries)
@@ -29,7 +32,6 @@ def message_generation_page():
     resume_info = get_resume()
     history = get_history(resume_info)
     role = st.selectbox("Who are you contacting?", ["recruiter", "manager", "friend", "ex-colleague", "senior", "director"], key = 'role_select')
-    #TODO: MAKE LIST OF MESSAGE TYPES
     message_type = st.selectbox("Message type", ['LinkedIn connection notes', 'Cover Letters'], key='message_type_select')
     company=st.session_state.company_name
     history = st.multiselect("How do you know the person?", history, key='history_select')
@@ -38,19 +40,7 @@ def message_generation_page():
     
     if st.button("Generate Messages", key='button') and resume_info:
 
-        data = {"role": role,
-         "company": company, 
-         "message_type": message_type,
-          "people": people, 
-          "job": job,
-           "history": history,
-            "resume_info": resume_info,
-            "summaries":st.session_state.summaries} #add resume
-        print(data)
-        response = requests.post("http://127.0.0.1:8000/generate-message/", json=data)
-        
-        output=response.json()
-
+        output = generate_messages(role=role, company=company, message_type=message_type, people=people, job=job, history=history, resume_info=resume_info, summaries=st.session_state.summaries)
 
         colors = ["#FFB6B9", "#B6E2D3", "#FFF2B2", "#B2D0FF"]  # light but readable
         text_color = "#111111"  # dark text for contrast in both light/dark modes
